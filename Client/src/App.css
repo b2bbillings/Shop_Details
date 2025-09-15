@@ -1,0 +1,52 @@
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  min-height: 100vh;
+}
+
+.app-container h1 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.show-btn {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  min-width: 200px;
+  min-height: 44px; /* Touch-friendly */
+}
+
+.show-btn:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+.show-btn:active {
+  transform: scale(0.95);
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    padding: 24px;
+  }
+  .app-container h1 {
+    font-size: 2rem; /* 32px */
+  }
+  .show-btn {
+    padding: 0.875rem 2rem;
+    font-size: 1.125rem;
+  }
+}

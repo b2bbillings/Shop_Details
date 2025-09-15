@@ -1,0 +1,83 @@
+.retailer-list {
+  margin-top: 16px;
+}
+
+.list-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.retailer-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.retailer-card {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.retailer-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.retailer-card p {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 4px;
+}
+
+.retailer-card p strong {
+  color: #1f2937;
+}
+
+.no-retailers {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 16px;
+}
+
+@media (min-width: 480px) {
+  .retailer-list {
+    margin-top: 20px;
+  }
+  .list-title {
+    font-size: 1.25rem;
+  }
+  .retailer-card {
+    padding: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .retailer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .list-title {
+    font-size: 1.5rem;
+  }
+  .retailer-card h3 {
+    font-size: 1.125rem;
+  }
+  .retailer-card p {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .retailer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
