@@ -5,17 +5,21 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-
 // Load environment variables
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const _dirname = path.resolve();
 
-const _dirname = path.resolve()
+// CORS Options
+const corsOptions = {
+  origin: "http://localhost:3000", // change to your frontend URL or deployed domain
+  credentials: true
+};
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
 
@@ -33,7 +37,6 @@ const Shop = require('./models/Shop');
 // Routes
 // Get all shops or filter by category, state, district, taluka, village
 app.get('/api/shops', async (req, res) => {
-  // console.log('GET /api/shops called with query:', req.query);
   try {
     const { category, state, district, taluka, village } = req.query;
     const query = {};
@@ -52,7 +55,6 @@ app.get('/api/shops', async (req, res) => {
 
 // Create a new shop
 app.post('/api/shops', async (req, res) => {
-  // console.log('POST /api/shops called with body:', req.body);
   try {
     const shop = new Shop(req.body);
     const savedShop = await shop.save();
@@ -65,7 +67,6 @@ app.post('/api/shops', async (req, res) => {
 
 // Update a shop by ID
 app.put('/api/shops/:id', async (req, res) => {
-  // console.log('PUT /api/shops/:id called with ID:', req.params.id);
   try {
     const { id } = req.params;
     if (!mongoose.isValidObjectId(id)) {
@@ -84,7 +85,6 @@ app.put('/api/shops/:id', async (req, res) => {
 
 // Delete a shop by ID
 app.delete('/api/shops/:id', async (req, res) => {
-  // console.log('DELETE /api/shops/:id called with ID:', req.params.id);
   try {
     const { id } = req.params;
     if (!mongoose.isValidObjectId(id)) {
@@ -103,7 +103,6 @@ app.delete('/api/shops/:id', async (req, res) => {
 
 // Get unique states
 app.get('/api/states', async (req, res) => {
-  // console.log('GET /api/states called');
   try {
     const states = await Shop.distinct('address.state');
     res.json(states.filter(state => state));
@@ -115,7 +114,6 @@ app.get('/api/states', async (req, res) => {
 
 // Get unique districts
 app.get('/api/districts', async (req, res) => {
-  // console.log('GET /api/districts called');
   try {
     const districts = await Shop.distinct('address.district');
     res.json(districts.filter(district => district));
@@ -127,7 +125,6 @@ app.get('/api/districts', async (req, res) => {
 
 // Get unique talukas
 app.get('/api/talukas', async (req, res) => {
-  // console.log('GET /api/talukas called');
   try {
     const talukas = await Shop.distinct('address.taluka');
     res.json(talukas.filter(taluka => taluka));
@@ -139,7 +136,6 @@ app.get('/api/talukas', async (req, res) => {
 
 // Get unique villages
 app.get('/api/villages', async (req, res) => {
-  // console.log('GET /api/villages called');
   try {
     const villages = await Shop.distinct('address.village');
     res.json(villages.filter(village => village));
@@ -149,10 +145,11 @@ app.get('/api/villages', async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(_dirname,'/Client/dist')))
-app.get('*', (req,res) => {
-  res.sendFile(path.resolve(_dirname,"Client", "dist", "index.html"))
-})
+// Serve frontend (React build)
+app.use(express.static(path.join(_dirname, '/Client/dist')));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(_dirname, "Client", "dist", "index.html"));
+});
 
 // Start the server
 app.listen(PORT, () => {
