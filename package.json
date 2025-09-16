@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-  "start": "node server.js",
-  "dev": "nodemon server.js"
+  "start": "nodemon server/server.js",
+  "dev": "nodemon server/server.js",
+  "build": "npm install && npm install --prefix Client && npm run build --prefix Client"
 },
   "dependencies": {
     "body-parser": "^1.20.3",

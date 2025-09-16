@@ -334,9 +334,9 @@ const RetailerForm = () => {
     setDeletingIds(prev => new Set([...prev, id]));
     
     try {
-      console.log('Attempting to delete shop with ID:', id);
+      // console.log('Attempting to delete shop with ID:', id);
       const response = await deleteShop(id);
-      console.log('Delete response:', response);
+      // console.log('Delete response:', response);
       showToast('Retailer deleted successfully!', 'success');
       
       // Refresh the entire list to ensure consistency
