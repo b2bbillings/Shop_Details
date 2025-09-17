@@ -13,14 +13,12 @@ const PORT = process.env.PORT || 5000;
 const _dirname = path.resolve();
 
 // CORS Options
-// CORS Options
 const corsOptions = {
-  origin: [
-    "http://localhost:5173",   // for local frontend dev
-    "https://shop-details.onrender.com"  // your deployed frontend
-  ],
-  credentials: true,
-};
+     origin: process.env.NODE_ENV === 'production' 
+       ? ["https://shop-details.onrender.com"]
+       : ["http://localhost:5173", "https://shop-details.onrender.com"],
+     credentials: true,
+   };
 
 app.use(cors(corsOptions));
 
