@@ -12,34 +12,34 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const _dirname = path.resolve();
 
-// ✅ CORS Options – allow localhost and deployed domain
+// CORS Options
+// CORS Options
 const corsOptions = {
   origin: [
-    "http://localhost:3000", 
-    "https://shop-details.onrender.com"
+    "http://localhost:5173",   // for local frontend dev
+    "https://shop-details.onrender.com"  // your deployed frontend
   ],
-  credentials: true
+  credentials: true,
 };
 
-// Middleware
 app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 app.use(express.json());
 
-// ✅ Connect to MongoDB Atlas
+// Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-  .then(() => console.log('✅ MongoDB connected successfully'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Import the Shop model
 const Shop = require('./models/Shop');
 
-// ================= Routes =================
-
-// Get all shops or filter
+// Routes
+// Get all shops or filter by category, state, district, taluka, village
 app.get('/api/shops', async (req, res) => {
   try {
     const { category, state, district, taluka, village } = req.query;
@@ -49,7 +49,6 @@ app.get('/api/shops', async (req, res) => {
     if (district) query['address.district'] = district;
     if (taluka) query['address.taluka'] = taluka;
     if (village) query['address.village'] = village;
-
     const shops = await Shop.find(query);
     res.json(shops);
   } catch (err) {
@@ -70,7 +69,7 @@ app.post('/api/shops', async (req, res) => {
   }
 });
 
-// Update shop by ID
+// Update a shop by ID
 app.put('/api/shops/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -88,7 +87,7 @@ app.put('/api/shops/:id', async (req, res) => {
   }
 });
 
-// Delete shop by ID
+// Delete a shop by ID
 app.delete('/api/shops/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -106,54 +105,57 @@ app.delete('/api/shops/:id', async (req, res) => {
   }
 });
 
-// Unique filters
-app.get('/api/states', async (_, res) => {
+// Get unique states
+app.get('/api/states', async (req, res) => {
   try {
     const states = await Shop.distinct('address.state');
-    res.json(states.filter(Boolean));
+    res.json(states.filter(state => state));
   } catch (err) {
     console.error('Error fetching states:', err);
     res.status(500).json({ error: 'Failed to fetch states: ' + err.message });
   }
 });
 
-app.get('/api/districts', async (_, res) => {
+// Get unique districts
+app.get('/api/districts', async (req, res) => {
   try {
     const districts = await Shop.distinct('address.district');
-    res.json(districts.filter(Boolean));
+    res.json(districts.filter(district => district));
   } catch (err) {
     console.error('Error fetching districts:', err);
     res.status(500).json({ error: 'Failed to fetch districts: ' + err.message });
   }
 });
 
-app.get('/api/talukas', async (_, res) => {
+// Get unique talukas
+app.get('/api/talukas', async (req, res) => {
   try {
     const talukas = await Shop.distinct('address.taluka');
-    res.json(talukas.filter(Boolean));
+    res.json(talukas.filter(taluka => taluka));
   } catch (err) {
     console.error('Error fetching talukas:', err);
     res.status(500).json({ error: 'Failed to fetch talukas: ' + err.message });
   }
 });
 
-app.get('/api/villages', async (_, res) => {
+// Get unique villages
+app.get('/api/villages', async (req, res) => {
   try {
     const villages = await Shop.distinct('address.village');
-    res.json(villages.filter(Boolean));
+    res.json(villages.filter(village => village));
   } catch (err) {
     console.error('Error fetching villages:', err);
     res.status(500).json({ error: 'Failed to fetch villages: ' + err.message });
   }
 });
 
-// ================= Serve frontend =================
+// Serve frontend (React build)
 app.use(express.static(path.join(_dirname, '/Client/dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(_dirname, "Client", "dist", "index.html"));
 });
 
-// ================= Start server =================
+// Start the server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
