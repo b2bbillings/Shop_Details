@@ -32,10 +32,7 @@ const styles = StyleSheet.create({
   },
 });
 // Mock API functions (replace with your actual API calls)
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-fetch(`${API_BASE}/api/shops`)
-
+const API_BASE = 'http://localhost:5000/api';
 
 const createShop = (shopData) => 
   fetch(`${API_BASE}/shops`, {
@@ -408,35 +405,23 @@ const RetailerForm = () => {
   };
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  if (name.includes(".")) {
-    // Nested field like "address.state"
-    const [parent, child] = name.split(".");
-
-    setFormData((prev) => ({
-      ...prev,
-      [parent]: { ...prev[parent], [child]: value },
-    }));
-
-    setErrors((prev) => ({
-      ...prev,
-      [parent]: { ...prev[parent], [child]: "" }, // ✅ Safe reset
-    }));
-  } else {
-    // Flat field like "ownerName"
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    setErrors((prev) => ({
-      ...prev,
-      [name]: "", // ✅ Safe reset
-    }));
-  }
-};
-
+    const { name, value } = e.target;
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.');
+      setFormData((prev) => ({
+        ...prev,
+        [parent]: { ...prev[parent], [child]: value },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+    if (errors[name] || errors[child]) {
+      setErrors((prev) => ({ ...prev, [name]: '', [child]: '' }));
+    }
+  };
 
   // Pincode auto-fill functionality
   useEffect(() => {
