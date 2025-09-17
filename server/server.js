@@ -13,16 +13,14 @@ const PORT = process.env.PORT || 5000;
 const _dirname = path.resolve();
 
 // CORS Options
-// CORS Options
-const corsOptions = {
+app.use(cors({
   origin: [
-    "http://localhost:5173",   // for local frontend dev
-    "https://shop-details.onrender.com"  // your deployed frontend
+    "http://localhost:5173",             // Dev
+    "https://shop-details.onrender.com"  // Frontend on Render
   ],
   credentials: true,
-};
+}));
 
-app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(express.json());
@@ -38,7 +36,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Import the Shop model
 const Shop = require('./models/Shop');
 
-// Routes
 // Get all shops or filter by category, state, district, taluka, village
 app.get('/api/shops', async (req, res) => {
   try {
