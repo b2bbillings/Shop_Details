@@ -1184,8 +1184,8 @@ const RetailerForm = () => {
         </button>
       </nav>
 
-      <div className="max-w-5xl p-4 mx-auto my-10" ref={formTopRef}>
-        <div className="p-4 mb-4 text-sm border border-gray-200 rounded-2xl bg-slate-50">
+      <div className="max-w-5xl mx-auto my-1" ref={formTopRef}>
+        <div className="p-4 mb-4 text-sm border border-gray-200 rounded-2xl bg-slate-50>
           <h3 className="mb-2 text-xl font-semibold text-gray-800">
             Keyboard Shortcuts
           </h3>
@@ -1199,7 +1199,7 @@ const RetailerForm = () => {
           </ul>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-4 max-h-[90vh] overflow-y-auto">
+        <div className="bg-white rounded-2xl shadow-lg p-2 max-h-[90vh] overflow-y-auto">
           {renderStepContent()}
           <div className="flex flex-col gap-4 mt-4 md:flex-row md:justify-between">
             <button
