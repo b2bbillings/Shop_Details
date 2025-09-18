@@ -14,7 +14,6 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Retailer Business Directory</h1>
       <RetailerForm onAddRetailer={addRetailer} />
       {/* <button className="show-btn" onClick={() => setShowList(!showList)}>
         {showList ? "Hide Details" : "Show All Retailer Details"}
